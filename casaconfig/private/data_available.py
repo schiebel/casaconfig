@@ -66,9 +66,12 @@ def data_available():
         import os
         if 'CASACONFIG_DATA_URL' in os.environ:
             try:
+
                 result = get_available_files(os.environ['CASACONFIG_DATA_URL'], pattern, _config.skipnetworkcheck)
-                print( result )
+                from . import do_pull_data as _dpd
+                _dpd.URL_OVERRIDE = os.environ['CASACONFIG_DATA_URL']
                 return result
+
             except Exception as exc:
                 raise RemoteError("Unable to retrieve list of available casarundata versions : " + str(exc)) from None
         else:

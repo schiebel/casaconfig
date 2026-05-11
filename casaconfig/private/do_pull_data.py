@@ -12,6 +12,8 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+URL_OVERRIDE = None
+
 def do_pull_data(path, version, installed_files, currentVersion, currentDate, logger, verbose):
     """
     Pull the casarundata for the given version and install it in path, removing
@@ -77,7 +79,7 @@ def do_pull_data(path, version, installed_files, currentVersion, currentDate, lo
 
     # okay, safe to install the requested version
 
-    goURL = 'https://go.nrao.edu/casarundata'
+    goURL = URL_OVERRIDE if URL_OVERRIDE else 'https://go.nrao.edu/casarundata'
 
     # extract version from goURL to path, no custom extraction filter, verbose output, use the logger when set
     do_untar_url(goURL, version, path, None, "downloading casarundata contents to ", logger)
