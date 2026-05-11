@@ -62,7 +62,15 @@ def data_available():
         return get_available_files('https://go.nrao.edu/casarundata', pattern, _config.skipnetworkcheck)
     
     except urllib.error.URLError as urlerr:
-        raise RemoteError("Unable to retrieve list of available casarundata versions : " + str(urlerr)) from None
+
+        import os
+        if 'CASACONFIG_DATA_URL' in os.environ:
+            try:
+                return get_available_files(os.environ['CASACONFIG_DATA_URL'], pattern, _config.skipnetworkcheck)
+            except Exception as exc:
+                raise RemoteError("Unable to retrieve list of available casarundata versions : " + str(exc)) from None
+        else:
+            raise RemoteError("Unable to retrieve list of available casarundata versions : " + str(urlerr)) from None
 
     except NoNetwork as exc:
         raise
