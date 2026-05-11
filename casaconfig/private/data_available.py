@@ -67,7 +67,7 @@ def data_available():
         if 'CASACONFIG_DATA_URL' in os.environ:
             try:
                 result = get_available_files(os.environ['CASACONFIG_DATA_URL'], pattern, _config.skipnetworkcheck)
-                console.log( result )
+                print( result )
                 return result
             except Exception as exc:
                 raise RemoteError("Unable to retrieve list of available casarundata versions : " + str(exc)) from None
