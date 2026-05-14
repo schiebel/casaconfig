@@ -67,9 +67,11 @@ def data_available():
         if 'CASACONFIG_DATA_URL' in os.environ:
             try:
 
-                result = get_available_files(os.environ['CASACONFIG_DATA_URL'], pattern, _config.skipnetworkcheck)
+                result = get_available_files(f"{os.environ['CASACONFIG_DATA_URL']}/data", pattern, _config.skipnetworkcheck)
                 from . import do_pull_data as _dpd
-                _dpd.URL_OVERRIDE = os.environ['CASACONFIG_DATA_URL']
+                _dpd.URL_OVERRIDE = f"{os.environ['CASACONFIG_DATA_URL']}/data"
+                import .config_defaults_static as _cds
+                _cds.measures_site = [f"{os.environ['CASACONFIG_DATA_URL']}/iers"]
                 return result
 
             except Exception as exc:
