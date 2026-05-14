@@ -14,7 +14,7 @@
 """
 this module will be included in the api
 """
-
+URL_OVERRIDE=None
 def measures_update(path=None, version=None, force=False, measures_site=None, logger=None, auto_update_rules=False, use_astron_obs_table=False, verbose=None):
     """
     Update or install the IERS data used for measures calculations from measures_site into path.
@@ -169,7 +169,9 @@ def measures_update(path=None, version=None, force=False, measures_site=None, lo
     if path is None:
         raise UnsetMeasurespath('measures_update: path is None and has not been set in config.measurespath. Provide a valid path and retry.')
 
-    if measures_site is None:
+    if URL_OVERRIDE is not None:
+        measures_site = [ URL_OVERRIDE ]
+    elif measures_site is None:
         measures_site = _config.measures_site
 
     if verbose is None:
