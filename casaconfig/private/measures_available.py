@@ -17,6 +17,7 @@ this module will be included in the api
 
 import traceback
 
+URL_OVERRIDE=None
 def measures_available(measures_site=None, logger=None):
     """
     Return a list of available measures versions at measures_site.
@@ -95,7 +96,9 @@ def measures_available(measures_site=None, logger=None):
 
     verbose = _config.casaconfig_verbose
 
-    if measures_site is None:
+    if URL_OVERRIDE is not None:
+        measures_site = [ URL_OVERRIDE ]
+    elif measures_site is None:
         measures_site = _config.measures_site
 
     # this makes sure that measures_site_interval can be used as an int
