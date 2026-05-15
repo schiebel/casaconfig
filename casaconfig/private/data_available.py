@@ -14,7 +14,7 @@
 """
 this module will be included in the api
 """
-
+import os
 URL_OVERRIDE = f"{os.environ['CASACONFIG_DATA_URL']}/data" if 'CASACONFIG_DATA_URL' in os.environ else None
 
 def data_available():
