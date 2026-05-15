@@ -70,7 +70,7 @@ def data_available():
                 result = get_available_files(f"{os.environ['CASACONFIG_DATA_URL']}/data", pattern, _config.skipnetworkcheck)
                 from . import do_pull_data as _dpd
                 _dpd.URL_OVERRIDE = f"{os.environ['CASACONFIG_DATA_URL']}/data"
-                import .measures_update as _mu
+                from . import measures_update as _mu
                 _mu.URL_OVERRIDE = f"{os.environ['CASACONFIG_DATA_URL']}/iers"
                 return result
 
