@@ -12,7 +12,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
-URL_OVERRIDE = None
+URL_OVERRIDE = f"{os.environ['CASACONFIG_DATA_URL']}/data" if 'CASACONFIG_DATA_URL' in os.environ else None
 
 def do_pull_data(path, version, installed_files, currentVersion, currentDate, logger, verbose):
     """

@@ -14,7 +14,8 @@
 """
 this module will be included in the api
 """
-URL_OVERRIDE=None
+URL_OVERRIDE = f"{os.environ['CASACONFIG_DATA_URL']}/iers" if 'CASACONFIG_DATA_URL' in os.environ else None
+
 def measures_update(path=None, version=None, force=False, measures_site=None, logger=None, auto_update_rules=False, use_astron_obs_table=False, verbose=None):
     """
     Update or install the IERS data used for measures calculations from measures_site into path.

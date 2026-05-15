@@ -15,6 +15,8 @@
 this module will be included in the api
 """
 
+URL_OVERRIDE = f"{os.environ['CASACONFIG_DATA_URL']}/data" if 'CASACONFIG_DATA_URL' in os.environ else None
+
 def data_available():
     """
     List available casarundata versions on CASA server at https://go.nrao.edu/casarundata
@@ -59,27 +61,10 @@ def data_available():
     pattern = r"^casarundata-\d{4}\.\d{2}\.\d{2}-\d+\..*tar.*"
 
     try:
-        return get_available_files('https://go.nrao.edu/casarundata', pattern, _config.skipnetworkcheck)
+        return get_available_files(URL_OVERRIDE if URL_OVERRIDE else 'https://go.nrao.edu/casarundata', pattern, _config.skipnetworkcheck)
     
     except urllib.error.URLError as urlerr:
-
-        import os
-        if 'CASACONFIG_DATA_URL' in os.environ:
-            try:
-
-                result = get_available_files(f"{os.environ['CASACONFIG_DATA_URL']}/data", pattern, _config.skipnetworkcheck)
-                from . import do_pull_data as _dpd
-                _dpd.URL_OVERRIDE = f"{os.environ['CASACONFIG_DATA_URL']}/data"
-                from . import measures_available as _ma
-                _ma.URL_OVERRIDE = f"{os.environ['CASACONFIG_DATA_URL']}/iers"
-                from . import measures_update as _mu
-                _mu.URL_OVERRIDE = f"{os.environ['CASACONFIG_DATA_URL']}/iers"
-                return result
-
-            except Exception as exc:
-                raise RemoteError("Unable to retrieve list of available casarundata versions : " + str(exc)) from None
-        else:
-            raise RemoteError("Unable to retrieve list of available casarundata versions : " + str(urlerr)) from None
+        raise RemoteError("Unable to retrieve list of available casarundata versions : " + str(urlerr)) from None
 
     except NoNetwork as exc:
         raise

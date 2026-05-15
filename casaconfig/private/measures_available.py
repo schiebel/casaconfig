@@ -17,7 +17,8 @@ this module will be included in the api
 
 import traceback
 
-URL_OVERRIDE=None
+URL_OVERRIDE = f"{os.environ['CASACONFIG_DATA_URL']}/iers" if 'CASACONFIG_DATA_URL' in os.environ else None
+
 def measures_available(measures_site=None, logger=None):
     """
     Return a list of available measures versions at measures_site.
